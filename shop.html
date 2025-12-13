@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop | HomPro Hardware</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0f172a', // slate-900
+                        accent: '#f59e0b', // amber-500
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class="font-sans text-slate-800 bg-slate-50 antialiased overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <img src="assets/images/home_pro-logo.png" alt="HomPro" class="h-16 w-auto object-contain">
+            </a>
+            <div class="hidden md:flex gap-8 font-medium text-slate-600">
+                <a href="index.html" class="hover:text-accent transition-colors">Home</a>
+                <a href="shop.html" class="text-accent font-bold">Shop</a>
+                <a href="index.html#about" class="hover:text-accent transition-colors">About</a>
+                <a href="index.html#contact" class="hover:text-accent transition-colors">Contact</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="text-slate-600 hover:text-accent transition-colors relative">
+                    <i data-lucide="shopping-cart" class="w-6 h-6"></i>
+                    <span
+                        class="absolute -top-2 -right-2 bg-accent text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+                </button>
+                <button
+                    class="bg-primary text-white px-6 py-2 rounded-full font-semibold hover:bg-slate-800 transition-all shadow-lg">
+                    Login
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="bg-slate-900 text-white pt-32 pb-16">
+        <div class="container mx-auto px-6">
+            <h1 class="text-4xl font-bold mb-4">Professional Hardware Catalog</h1>
+            <p class="text-slate-400 text-lg max-w-2xl">Browse our extensive range of tools, materials, and equipment.
+                Bulk pricing available for contractors.</p>
+        </div>
+    </header>
+
+    <!-- Mobile Filters Button -->
+    <button id="mobile-filters-toggle" class="md:hidden fixed bottom-6 right-6 z-40 bg-accent text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg shadow-amber-500/30">
+        <i data-lucide="filter" class="w-6 h-6"></i>
+    </button>
+
+    <!-- Mobile Filters Drawer Overlay -->
+    <div id="mobile-filters-overlay" class="md:hidden fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-sm" id="mobile-filters-backdrop"></div>
+        <div class="absolute top-0 left-0 h-full w-80 bg-white shadow-xl overflow-y-auto transform -translate-x-full transition-transform duration-300" id="mobile-filters-panel">
+            <div class="p-6 space-y-8">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-bold text-primary">Filters</h2>
+                    <button id="mobile-filters-close" class="text-slate-500 hover:text-slate-700">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+                <!-- Search -->
+                <div class="relative">
+                    <input id="product-search-mobile" type="text" placeholder="Search products..."
+                        class="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-accent focus:border-transparent outline-none">
+                    <i data-lucide="search" class="w-5 h-5 text-slate-400 absolute left-3 top-3.5"></i>
+                </div>
+
+                <!-- Categories -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Categories</h3>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" value="Power Tools" data-filter="category" class="w-5 h-5 rounded border-slate-300 text-accent focus:ring-accent">
+                            <span class="text-slate-600 group-hover:text-accent transition-colors">Power Tools</span>
+                            <span class="ml-auto text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded-full">124</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" value="Hand Tools" data-filter="category" class="w-5 h-5 rounded border-slate-300 text-accent focus:ring-accent">
+                            <span class="text-slate-600 group-hover:text-accent transition-colors">Hand Tools</span>
+                            <span class="ml-auto text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded-full">85</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" value="Building Materials" data-filter="category" class="w-5 h-5 rounded border-slate-300 text-accent focus:ring-accent">
+                            <span class="text-slate-600 group-hover:text-accent transition-colors">Building Materials</span>
+                            <span class="ml-auto text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded-full">200+</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" value="Plumbing" data-filter="category" class="w-5 h-5 rounded border-slate-300 text-accent focus:ring-accent">
+                            <span class="text-slate-600 group-hover:text-accent transition-colors">Plumbing</span>
+                            <span class="ml-auto text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded-full">56</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" value="Electrical" data-filter="category" class="w-5 h-5 rounded border-slate-300 text-accent focus:ring-accent">
+                            <span class="text-slate-600 group-hover:text-accent transition-colors">Electrical</span>
+                            <span class="ml-auto text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded-full">92</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Price Range -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Price Range</h3>
+                    <div class="flex items-center gap-4 mb-4">
+                        <input id="price-min-mobile" type="number" placeholder="Min"
+                            class="w-full px-3 py-2 rounded border border-slate-200 text-sm">
+                        <span class="text-slate-400">-</span>
+                        <input id="price-max-mobile" type="number" placeholder="Max"
+                            class="w-full px-3 py-2 rounded border border-slate-200 text-sm">
+                    </div>
+                    <input id="price-range-mobile" type="range" class="w-full accent-accent">
+                </div>
+
+                <!-- Availability -->
+                <div>
+                    <h3 class="font-bold text-lg mb-4">Availability</h3>
+                    <label class="flex items-center gap-3 cursor-pointer mb-2">
+                        <input id="availability-instock-mobile" type="checkbox" value="in-stock" data-filter="availability" checked
+                            class="w-5 h-5 rounded border-slate-300 text-accent focus:ring-accent">
+                        <span class="text-slate-600">In Stock</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer">
+                        <input id="availability-preorder-mobile" type="checkbox" value="pre-order" data-filter="availability"
+                            class="w-5 h-5 rounded border-slate-300 text-accent focus:ring-accent">
+                        <span class="text-slate-600">Pre-Order</span>
+                    </label>
+                </div>
+
+                <button id="mobile-filters-apply" class="w-full bg-accent text-white py-3 rounded-lg font-semibold hover:bg-amber-600 transition-colors">
+                    Apply Filters
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12 flex flex-col md:flex-row gap-12">
+
+        <!-- Sidebar Filters -->
+        <aside class="hidden md:block w-full md:w-1/4 space-y-8">
+            <!-- Search -->
+            <div class="relative">
+                <input id="product-search" type="text" placeholder="Search products..."
+                    class="w-full pl-10 pr-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-accent focus:border-transparent outline-none">
+                <i data-lucide="search" class="w-5 h-5 text-slate-400 absolute left-3 top-3.5"></i>
+            </div>
+
+            <!-- Categories -->
+            <div>
+                <h3 class="font-bold text-lg mb-4">Categories</h3>
+                <div class="space-y-2">
+                    <label class="flex items-center gap-3 cursor-pointer group">
+                        <input type="checkbox" value="Power Tools" data-filter="category" class="w-5 h-5 rounded border-slate-300 text-accent focus:ring-accent">
+                        <span class="text-slate-600 group-hover:text-accent transition-colors">Power Tools</span>
+                        <span class="ml-auto text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded-full">124</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer group">
+                        <input type="checkbox" value="Hand Tools" data-filter="category" class="w-5 h-5 rounded border-slate-300 text-accent focus:ring-accent">
+                        <span class="text-slate-600 group-hover:text-accent transition-colors">Hand Tools</span>
+                        <span class="ml-auto text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded-full">85</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer group">
+                        <input type="checkbox" value="Building Materials" data-filter="category" class="w-5 h-5 rounded border-slate-300 text-accent focus:ring-accent">
+                        <span class="text-slate-600 group-hover:text-accent transition-colors">Building Materials</span>
+                        <span class="ml-auto text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded-full">200+</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer group">
+                        <input type="checkbox" value="Plumbing" data-filter="category" class="w-5 h-5 rounded border-slate-300 text-accent focus:ring-accent">
+                        <span class="text-slate-600 group-hover:text-accent transition-colors">Plumbing</span>
+                        <span class="ml-auto text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded-full">56</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer group">
+                        <input type="checkbox" value="Electrical" data-filter="category" class="w-5 h-5 rounded border-slate-300 text-accent focus:ring-accent">
+                        <span class="text-slate-600 group-hover:text-accent transition-colors">Electrical</span>
+                        <span class="ml-auto text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded-full">92</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Price Range -->
+            <div>
+                <h3 class="font-bold text-lg mb-4">Price Range</h3>
+                <div class="flex items-center gap-4 mb-4">
+                    <input id="price-min" type="number" placeholder="Min"
+                        class="w-full px-3 py-2 rounded border border-slate-200 text-sm">
+                    <span class="text-slate-400">-</span>
+                    <input id="price-max" type="number" placeholder="Max"
+                        class="w-full px-3 py-2 rounded border border-slate-200 text-sm">
+                </div>
+                <input id="price-range" type="range" class="w-full accent-accent">
+            </div>
+
+            <!-- Availability -->
+            <div>
+                <h3 class="font-bold text-lg mb-4">Availability</h3>
+                <label class="flex items-center gap-3 cursor-pointer mb-2">
+                    <input id="availability-instock" type="checkbox" value="in-stock" data-filter="availability" checked
+                        class="w-5 h-5 rounded border-slate-300 text-accent focus:ring-accent">
+                    <span class="text-slate-600">In Stock</span>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer">
+                    <input id="availability-preorder" type="checkbox" value="pre-order" data-filter="availability"
+                        class="w-5 h-5 rounded border-slate-300 text-accent focus:ring-accent">
+                    <span class="text-slate-600">Pre-Order</span>
+                </label>
+            </div>
+        </aside>
+
+        <!-- Product Grid -->
+        <div class="w-full md:w-3/4">
+            <!-- Toolbar -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                <p class="text-slate-500">Showing <span id="product-count" class="font-bold text-primary">12</span> of
+                    <span id="product-total" class="font-bold text-primary">12</span> products</p>
+                <div class="flex items-center gap-3">
+                    <button id="clear-filters" class="text-sm text-accent hover:text-amber-600 font-medium transition-colors">
+                        Clear all
+                    </button>
+                    <div class="flex border border-slate-200 rounded-lg overflow-hidden">
+                        <button id="view-grid" class="px-3 py-2 bg-accent text-white" title="Grid view">
+                            <i data-lucide="grid" class="w-4 h-4"></i>
+                        </button>
+                        <button id="view-list" class="px-3 py-2 bg-slate-100 text-slate-600 hover:bg-slate-200" title="List view">
+                            <i data-lucide="list" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    <select id="sort-select"
+                        class="border border-slate-200 rounded-lg px-4 py-2 text-slate-600 outline-none focus:ring-2 focus:ring-accent">
+                        <option value="featured">Sort by: Featured</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="newest">Newest Arrivals</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Grid/List Container -->
+            <div id="product-grid-wrapper">
+                <!-- Grid -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="product-grid">
+
+                <!-- Product 1 -->
+                <div
+                    class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 group border border-slate-100 overflow-hidden"
+                    data-product-card
+                    data-product-name="Premium Portland Cement (50kg)"
+                    data-product-category="Building Materials"
+                    data-product-price="$12.50"
+                    data-product-availability="in-stock"
+                    data-product-image="assets/images/cat-building.png"
+                    data-product-specs="50 kg bag format|High compressive strength|Predictable setting times|Compatible with common aggregates"
+                    data-product-uses="Structural slabs and suspended floors|Columns, beams and ring beams|Foundations and footings|On-site block and paver production"
+                    data-product-description="High-strength Portland cement formulated for slabs, columns, beams, foundations, and block making. Offers consistent setting times and compressive strength, giving reliable performance for both structural and non-structural concrete. Suitable for hand mixing or ready-mix batches, and compatible with commonly used aggregates and admixtures.">
+                    <div class="relative h-48 bg-slate-100 overflow-hidden">
+                        <img src="assets/images/cat-building.png" alt="Cement"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-3 right-3 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded">
+                            BULK</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs text-accent font-bold mb-2 uppercase tracking-wide">Building Materials</div>
+                        <h3 class="font-bold text-lg text-primary mb-2 group-hover:text-accent transition-colors">
+                            Premium Portland Cement (50kg)</h3>
+                        <p class="text-slate-500 text-sm mb-4">High-strength Portland cement formulated for slabs,
+                            columns, beams, foundations, and block making. Offers consistent setting times and compressive
+                            strength, giving reliable performance for both structural and non-structural concrete. Suitable
+                            for hand mixing or ready-mix batches, and compatible with commonly used aggregates and
+                            admixtures.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-bold text-primary">$12.50</span>
+                            <button
+                                class="border border-accent text-accent hover:bg-accent hover:text-white px-3 py-1 rounded-full text-sm font-bold transition-colors">
+                                Request Quote
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div
+                    class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 group border border-slate-100 overflow-hidden"
+                    data-product-card
+                    data-product-name="Interior Matte Paint - White"
+                    data-product-category="Home Improvement"
+                    data-product-price="$45.00"
+                    data-product-availability="in-stock"
+                    data-product-image="assets/images/cat-home.png"
+                    data-product-specs="Low-odor acrylic formula|Bright neutral white shade|Fast recoat time|Highly washable surface"
+                    data-product-uses="Residential and office walls|Ceilings needing a soft, non-glare finish|Refurbishment projects with quick turnaround"
+                    data-product-description="Contractor-grade interior matte paint in a bright, neutral white ideal for walls and ceilings. Low-odor, fast-drying formula allows same-day recoating and minimal disruption to occupied spaces. Highly washable surface resists common stains and marks, making it suitable for homes, offices, and light commercial areas.">
+                    <div class="relative h-48 bg-slate-100 overflow-hidden">
+                        <img src="assets/images/cat-home.png" alt="Paint"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-3 right-3 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded">
+                            LOW STOCK</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs text-accent font-bold mb-2 uppercase tracking-wide">Home Improvement</div>
+                        <h3 class="font-bold text-lg text-primary mb-2 group-hover:text-accent transition-colors">
+                            Interior Matte Paint - White</h3>
+                        <p class="text-slate-500 text-sm mb-4">Contractor-grade interior matte paint in a bright, neutral
+                            white ideal for walls and ceilings. Low-odor, fast-drying formula allows same-day recoating and
+                            minimal disruption to occupied spaces. Highly washable surface resists common stains and marks,
+                            making it suitable for homes, offices, and light commercial areas.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-bold text-primary">$45.00</span>
+                            <button
+                                class="bg-slate-100 hover:bg-accent hover:text-white text-primary p-2 rounded-full transition-colors">
+                                <i data-lucide="plus" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div
+                    class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 group border border-slate-100 overflow-hidden"
+                    data-product-card
+                    data-product-name="Pro Screwdriver Set (12pc)"
+                    data-product-category="Hand Tools"
+                    data-product-price="$28.00"
+                    data-product-availability="in-stock"
+                    data-product-image="assets/images/cat-tools.png"
+                    data-product-specs="12-piece set|Flat, Phillips and star tips|Magnetised hardened blades|Dual-material comfort handles"
+                    data-product-uses="General workshop and site fastening|Electrical and plumbing maintenance|Service vehicle or toolbox kits"
+                    data-product-description="Twelve-piece professional screwdriver set covering the most common flat, Phillips, and star profiles used on site. Hardened, magnetised tips grip screws securely and reduce cam-out, while the dual-material handles provide a comfortable, non-slip hold. Supplied with a compact storage rack for easy organisation in the workshop or service vehicle.">
+                    <div class="relative h-48 bg-slate-100 overflow-hidden">
+                        <img src="assets/images/cat-tools.png" alt="Screwdriver Set"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
+                            IN STOCK</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs text-accent font-bold mb-2 uppercase tracking-wide">Hand Tools</div>
+                        <h3 class="font-bold text-lg text-primary mb-2 group-hover:text-accent transition-colors">Pro
+                            Screwdriver Set (12pc)</h3>
+                        <p class="text-slate-500 text-sm mb-4">Twelve-piece professional screwdriver set covering the most
+                            common flat, Phillips, and star profiles used on site. Hardened, magnetised tips grip screws
+                            securely and reduce cam-out, while the dual-material handles provide a comfortable, non-slip
+                            hold. Supplied with a compact storage rack for easy organisation in the workshop or service
+                            vehicle.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-bold text-primary">$28.00</span>
+                            <button
+                                class="bg-slate-100 hover:bg-accent hover:text-white text-primary p-2 rounded-full transition-colors">
+                                <i data-lucide="plus" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div
+                    class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 group border border-slate-100 overflow-hidden"
+                    data-product-card
+                    data-product-name="Standard Red Bricks (1000)"
+                    data-product-category="Building Materials"
+                    data-product-price="$180.00"
+                    data-product-availability="in-stock"
+                    data-product-image="assets/images/cat-building.png"
+                    data-product-specs="Pallet of 1000 solid clay bricks|Consistent sizing and firing|Suitable for load-bearing work|Works with standard masonry mortar"
+                    data-product-uses="External and internal walls|Boundary walls and piers|Paving and landscaping edging|Small residential and commercial builds"
+                    data-product-description="Pallet of one thousand solid clay bricks suitable for load-bearing walls, boundary walls, and paving. Consistent sizing and firing reduce wastage and speed up laying on site. Recommended for use with standard masonry mortar mixes for residential and small commercial projects.">
+                    <div class="relative h-48 bg-slate-100 overflow-hidden">
+                        <img src="assets/images/cat-building.png" alt="Bricks"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-3 right-3 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded">
+                            BULK</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs text-accent font-bold mb-2 uppercase tracking-wide">Building Materials</div>
+                        <h3 class="font-bold text-lg text-primary mb-2 group-hover:text-accent transition-colors">
+                            Standard Red Bricks (1000)</h3>
+                        <p class="text-slate-500 text-sm mb-4">Pallet of one thousand solid clay bricks suitable for
+                            load-bearing walls, boundary walls, and paving. Consistent sizing and firing reduce wastage and
+                            speed up laying on site. Recommended for use with standard masonry mortar mixes for residential
+                            and small commercial projects.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-bold text-primary">$180.00</span>
+                            <button
+                                class="border border-accent text-accent hover:bg-accent hover:text-white px-3 py-1 rounded-full text-sm font-bold transition-colors">
+                                Request Quote
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div
+                    class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 group border border-slate-100 overflow-hidden"
+                    data-product-card
+                    data-product-name="4.5&quot; Angle Grinder 900W"
+                    data-product-category="Power Tools"
+                    data-product-price="$65.00"
+                    data-product-availability="in-stock"
+                    data-product-image="assets/images/cat-tools.png"
+                    data-product-specs="900W motor|4.5 in disc capacity|Slim body with side handle|Spindle lock and safety guard"
+                    data-product-uses="Cutting and grinding steel sections|Chasing channels in masonry|Deburring welds and plate edges|Site work in tight or overhead spaces"
+                    data-product-description="Compact 900W angle grinder with a 4.5 inch disc size, ideal for cutting, grinding, and deburring steel, concrete, and masonry. Slim body design and side handle give excellent control in tight spaces or overhead work. Features spindle lock for fast disc changes, protective guard for improved safety, and air vents engineered to direct dust away from the motor windings.">
+                    <div class="relative h-48 bg-slate-100 overflow-hidden">
+                        <img src="assets/images/cat-tools.png" alt="Angle Grinder"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
+                            IN STOCK</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs text-accent font-bold mb-2 uppercase tracking-wide">Power Tools</div>
+                        <h3 class="font-bold text-lg text-primary mb-2 group-hover:text-accent transition-colors">4.5"
+                            Angle Grinder 900W</h3>
+                        <p class="text-slate-500 text-sm mb-4">Compact 900W angle grinder with a 4.5 inch disc size, ideal
+                            for cutting, grinding, and deburring steel, concrete, and masonry. Slim body design and side
+                            handle give excellent control in tight spaces or overhead work. Features spindle lock for fast
+                            disc changes, protective guard for improved safety, and air vents engineered to direct dust
+                            away from the motor windings.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-bold text-primary">$65.00</span>
+                            <button
+                                class="bg-slate-100 hover:bg-accent hover:text-white text-primary p-2 rounded-full transition-colors">
+                                <i data-lucide="plus" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 7 (New) -->
+                <div
+                    class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 group border border-slate-100 overflow-hidden"
+                    data-product-card
+                    data-product-name="Heavy Duty PVC Pipes (6m)"
+                    data-product-category="Plumbing"
+                    data-product-price="$15.00"
+                    data-product-availability="in-stock"
+                    data-product-image="assets/images/prod-plumbing.png"
+                    data-product-specs="6 m length sections|Heavy-wall PVC construction|Resistant to corrosion and chemicals|Smooth internal bore for improved flow"
+                    data-product-uses="Cold water supply runs|Bathroom and kitchen waste lines|Outdoor plumbing and irrigation|Upgrade work replacing corroded metal pipe"
+                    data-product-description="Heavy wall PVC pressure pipes supplied in 6 metre lengths for cold water supply and waste lines. Resistant to corrosion and most household chemicals, making them suitable for kitchens, bathrooms, and outdoor runs. Smooth internal bore improves flow and reduces scale build-up over time when correctly installed.">
+                    <div class="relative h-48 bg-slate-100 overflow-hidden">
+                        <img src="assets/images/prod-plumbing.png" alt="PVC Pipes"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
+                            IN STOCK</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs text-accent font-bold mb-2 uppercase tracking-wide">Plumbing</div>
+                        <h3 class="font-bold text-lg text-primary mb-2 group-hover:text-accent transition-colors">
+                            Heavy Duty PVC Pipes (6m)</h3>
+                        <p class="text-slate-500 text-sm mb-4">Heavy wall PVC pressure pipes supplied in 6 metre lengths
+                            for cold water supply and waste lines. Resistant to corrosion and most household chemicals,
+                            making them suitable for kitchens, bathrooms, and outdoor runs. Smooth internal bore improves
+                            flow and reduces scale build-up over time when correctly installed.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-bold text-primary">$15.00</span>
+                            <button
+                                class="bg-slate-100 hover:bg-accent hover:text-white text-primary p-2 rounded-full transition-colors">
+                                <i data-lucide="plus" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 8 (New) -->
+                <div
+                    class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 group border border-slate-100 overflow-hidden"
+                    data-product-card
+                    data-product-name="Copper Wire Roll (100m)"
+                    data-product-category="Electrical"
+                    data-product-price="$85.00"
+                    data-product-availability="in-stock"
+                    data-product-image="assets/images/prod-electrical.png"
+                    data-product-specs="100 m roll length|High-conductivity copper|Durable flexible insulation|Designed for stable current carrying capacity"
+                    data-product-uses="Domestic power circuits|Light commercial wiring runs|Pulling through conduit and trunking|Small industrial control panels"
+                    data-product-description="One hundred metre roll of high-conductivity copper wire suitable for domestic and light commercial electrical installations. Flexible insulation helps with routing through conduits and tight spaces while maintaining good mechanical protection. Designed for stable current carrying capacity and reduced voltage drop over typical circuit lengths.">
+                    <div class="relative h-48 bg-slate-100 overflow-hidden">
+                        <img src="assets/images/prod-electrical.png" alt="Copper Wire"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
+                            IN STOCK</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs text-accent font-bold mb-2 uppercase tracking-wide">Electrical</div>
+                        <h3 class="font-bold text-lg text-primary mb-2 group-hover:text-accent transition-colors">
+                            Copper Wire Roll (100m)</h3>
+                        <p class="text-slate-500 text-sm mb-4">One hundred metre roll of high-conductivity copper wire
+                            suitable for domestic and light commercial electrical installations. Flexible insulation helps
+                            with routing through conduits and tight spaces while maintaining good mechanical protection.
+                            Designed for stable current carrying capacity and reduced voltage drop over typical circuit
+                            lengths.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-bold text-primary">$85.00</span>
+                            <button
+                                class="bg-slate-100 hover:bg-accent hover:text-white text-primary p-2 rounded-full transition-colors">
+                                <i data-lucide="plus" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 9 (New) -->
+                <div
+                    class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 group border border-slate-100 overflow-hidden"
+                    data-product-card
+                    data-product-name="Smart LED Bulb (Pack of 4)"
+                    data-product-category="Home Improvement"
+                    data-product-price="$32.00"
+                    data-product-availability="in-stock"
+                    data-product-image="assets/images/prod-lighting.png"
+                    data-product-specs="Pack of 4 LED lamps|Adjustable white colour temperature|Dimmable via app or voice|Long service life and low energy use"
+                    data-product-uses="Smart home lighting scenes|Kitchen, lounge and bedroom lighting|Energy-saving upgrades from incandescent or CFL"
+                    data-product-description="Pack of four energy-efficient smart LED bulbs with adjustable brightness and warm-to-cool white colour control. Compatible with most popular smart home platforms for app and voice control of scenes, schedules, and timers. Long service life dramatically reduces replacement frequency compared with traditional incandescent lamps.">
+                    <div class="relative h-48 bg-slate-100 overflow-hidden">
+                        <img src="assets/images/prod-lighting.png" alt="LED Bulb"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
+                            IN STOCK</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs text-accent font-bold mb-2 uppercase tracking-wide">Home Improvement</div>
+                        <h3 class="font-bold text-lg text-primary mb-2 group-hover:text-accent transition-colors">
+                            Smart LED Bulb (Pack of 4)</h3>
+                        <p class="text-slate-500 text-sm mb-4">Pack of four energy-efficient smart LED bulbs with
+                            adjustable brightness and warm-to-cool white colour control. Compatible with most popular smart
+                            home platforms for app and voice control of scenes, schedules, and timers. Long service life
+                            dramatically reduces replacement frequency compared with traditional incandescent lamps.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-bold text-primary">$32.00</span>
+                            <button
+                                class="bg-slate-100 hover:bg-accent hover:text-white text-primary p-2 rounded-full transition-colors">
+                                <i data-lucide="plus" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 10 (New) -->
+                <div
+                    class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 group border border-slate-100 overflow-hidden"
+                    data-product-card
+                    data-product-name="Premium Brass Kitchen Faucet"
+                    data-product-category="Plumbing"
+                    data-product-price="$120.00"
+                    data-product-availability="in-stock"
+                    data-product-image="assets/images/prod-plumbing.png"
+                    data-product-specs="Solid brass body|Single-lever ceramic cartridge|High arc spout|Brushed finish resists marks"
+                    data-product-uses="New kitchen installations|Upgrading tired or leaking taps|Deep sinks and large pots needing extra clearance"
+                    data-product-description="Solid brass single-lever kitchen faucet with a modern, brushed finish that resists fingerprints and water marks. Smooth ceramic cartridge provides precise control over flow and temperature, while the high arc spout gives generous clearance for filling pots and cleaning large dishes. Supplied with flexible connection hoses and mounting hardware for quick installation.">
+                    <div class="relative h-48 bg-slate-100 overflow-hidden">
+                        <img src="assets/images/prod-plumbing.png" alt="Brass Faucet"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-3 right-3 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded">
+                            LOW STOCK</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs text-accent font-bold mb-2 uppercase tracking-wide">Plumbing</div>
+                        <h3 class="font-bold text-lg text-primary mb-2 group-hover:text-accent transition-colors">
+                            Premium Brass Kitchen Faucet</h3>
+                        <p class="text-slate-500 text-sm mb-4">Solid brass single-lever kitchen faucet with a modern,
+                            brushed finish that resists fingerprints and water marks. Smooth ceramic cartridge provides
+                            precise control over flow and temperature, while the high arc spout gives generous clearance for
+                            filling pots and cleaning large dishes. Supplied with flexible connection hoses and mounting
+                            hardware for quick installation.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-bold text-primary">$120.00</span>
+                            <button
+                                class="bg-slate-100 hover:bg-accent hover:text-white text-primary p-2 rounded-full transition-colors">
+                                <i data-lucide="plus" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 11 (New) -->
+                <div
+                    class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 group border border-slate-100 overflow-hidden"
+                    data-product-card
+                    data-product-name="Industrial Circuit Breaker"
+                    data-product-category="Electrical"
+                    data-product-price="$45.00"
+                    data-product-availability="in-stock"
+                    data-product-image="assets/images/prod-electrical.png"
+                    data-product-specs="Thermal-magnetic trip unit|Compact DIN-rail housing|Fast response to fault currents|Designed to limit nuisance tripping"
+                    data-product-uses="Protecting small distribution boards|Light industrial machinery circuits|Upgrading unsafe or obsolete breakers"
+                    data-product-description="Compact industrial circuit breaker designed to protect equipment from overloads and short circuits. Thermal-magnetic trip unit reacts quickly to fault conditions while avoiding nuisance tripping under normal inrush currents. DIN-rail mountable housing makes it easy to install in standard distribution boards and control panels.">
+                    <div class="relative h-48 bg-slate-100 overflow-hidden">
+                        <img src="assets/images/prod-electrical.png" alt="Circuit Breaker"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
+                            IN STOCK</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs text-accent font-bold mb-2 uppercase tracking-wide">Electrical</div>
+                        <h3 class="font-bold text-lg text-primary mb-2 group-hover:text-accent transition-colors">
+                            Industrial Circuit Breaker</h3>
+                        <p class="text-slate-500 text-sm mb-4">Compact industrial circuit breaker designed to protect
+                            equipment from overloads and short circuits. Thermal-magnetic trip unit reacts quickly to fault
+                            conditions while avoiding nuisance tripping under normal inrush currents. DIN-rail mountable
+                            housing makes it easy to install in standard distribution boards and control panels.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-bold text-primary">$45.00</span>
+                            <button
+                                class="bg-slate-100 hover:bg-accent hover:text-white text-primary p-2 rounded-full transition-colors">
+                                <i data-lucide="plus" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 12 (New) -->
+                <div
+                    class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 group border border-slate-100 overflow-hidden"
+                    data-product-card
+                    data-product-name="Modern Pendant Light Fixture"
+                    data-product-category="Home Improvement"
+                    data-product-price="$89.00"
+                    data-product-availability="in-stock"
+                    data-product-image="assets/images/prod-lighting.png"
+                    data-product-specs="Single-drop pendant design|Metal shade with modern finish|Height-adjustable cable|Standard bulb holder"
+                    data-product-uses="Kitchen islands and breakfast bars|Dining tables and reception counters|Feature lighting in modern interiors"
+                    data-product-description="Modern single-drop pendant light ideal for kitchen islands, dining tables, and reception counters. Metal shade and clean lines complement contemporary interiors, while the wide spread of light reduces harsh shadows on work surfaces. Supplied ready to wire with ceiling plate, height-adjustable cable, and standard bulb holder.">
+                    <div class="relative h-48 bg-slate-100 overflow-hidden">
+                        <img src="assets/images/prod-lighting.png" alt="Pendant Light"
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-3 right-3 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded">
+                            BULK</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs text-accent font-bold mb-2 uppercase tracking-wide">Home Improvement</div>
+                        <h3 class="font-bold text-lg text-primary mb-2 group-hover:text-accent transition-colors">
+                            Modern Pendant Light Fixture</h3>
+                        <p class="text-slate-500 text-sm mb-4">Stylish pendant light for contemporary home interiors.
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xl font-bold text-primary">$89.00</span>
+                            <button
+                                Request Quote
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- List View (hidden by default) -->
+                <div class="hidden flex-col gap-4" id="product-list"></div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="flex justify-center mt-12 gap-2">
+                <button
+                    class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-slate-100 transition-colors"><i
+                        data-lucide="chevron-left" class="w-5 h-5"></i></button>
+                <button
+                    class="w-10 h-10 rounded-full bg-accent text-white font-bold flex items-center justify-center shadow-lg shadow-amber-500/30">1</button>
+                <button
+                    class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-slate-100 transition-colors">2</button>
+                <button
+                    class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-slate-100 transition-colors">3</button>
+                <button
+                    class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-slate-100 transition-colors"><i
+                        data-lucide="chevron-right" class="w-5 h-5"></i></button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Product Details Modal (shared with index page) -->
+    <div id="product-modal"
+        class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/70 backdrop-blur-sm">
+        <div data-modal-panel
+            class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full mx-4 md:mx-6 overflow-hidden relative">
+            <button id="product-modal-close"
+                class="absolute top-4 right-4 bg-white/80 hover:bg-slate-100 border border-slate-200 rounded-full w-9 h-9 flex items-center justify-center text-slate-500 hover:text-slate-700 transition-colors">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+            <div class="grid md:grid-cols-2">
+                <div class="h-64 md:h-full overflow-hidden bg-slate-100">
+                    <img id="product-modal-image" src="" alt="Product image"
+                        class="w-full h-full object-cover">
+                </div>
+                <div class="p-6 md:p-8 space-y-4">
+                    <div id="product-modal-category"
+                        class="text-xs font-bold text-accent uppercase tracking-wide">
+                    </div>
+                    <h3 id="product-modal-title" class="text-2xl font-bold text-primary"></h3>
+                    <p id="product-modal-price" class="text-xl font-bold text-primary"></p>
+                    <p id="product-modal-description"
+                        class="text-slate-600 text-sm leading-relaxed max-h-40 md:max-h-56 overflow-y-auto">
+                    </p>
+                    <div id="product-modal-specs-section" class="space-y-2 hidden">
+                        <h4 class="text-xs font-bold text-slate-500 tracking-wide uppercase">Key Specs</h4>
+                        <div id="product-modal-specs" class="flex flex-wrap gap-2"></div>
+                    </div>
+                    <div id="product-modal-uses-section" class="space-y-2 hidden">
+                        <h4 class="text-xs font-bold text-slate-500 tracking-wide uppercase">Best For</h4>
+                        <ul id="product-modal-uses" class="list-disc list-inside space-y-1"></ul>
+                    </div>
+                    <div class="pt-2 flex flex-wrap gap-3">
+                        <a href="shop.html"
+                            class="inline-flex items-center justify-center px-4 py-2 rounded-full bg-accent text-white text-sm font-semibold hover:bg-amber-600 transition-colors shadow-md shadow-amber-500/30">
+                            View Full Catalog
+                            <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </a>
+                        <button type="button"
+                            class="inline-flex items-center justify-center px-4 py-2 rounded-full border border-slate-200 text-sm font-semibold text-primary hover:bg-slate-50 transition-colors">
+                            Add to Quote List
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white py-12 border-t border-slate-800">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="text-2xl font-bold flex items-center gap-2 mb-6">
+                        <i data-lucide="hammer" class="w-6 h-6 text-accent"></i>
+                        HomPro
+                    </div>
+                    <p class="text-slate-400">Zimbabwe's trusted destination for quality hardware tools, building
+                        materials, and home improvement essentials.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Quick Links</h4>
+                    <ul class="space-y-3 text-slate-400">
+                        <li><a href="index.html#about" class="hover:text-accent transition-colors">About Us</a></li>
+                        <li><a href="shop.html" class="hover:text-accent transition-colors">Products</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Services</a></li>
+                        <li><a href="index.html#contact" class="hover:text-accent transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Categories</h4>
+                    <ul class="space-y-3 text-slate-400">
+                        <li><a href="#" class="hover:text-accent transition-colors">Power Tools</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Building Materials</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Plumbing</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Electrical</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Newsletter</h4>
+                    <p class="text-slate-400 mb-4">Subscribe for latest offers and updates.</p>
+                    <div class="flex gap-2">
+                        <input type="email" placeholder="Your email"
+                            class="bg-slate-800 border-none rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-accent text-white">
+                        <button
+                            class="bg-accent text-white px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors"><i
+                                data-lucide="send" class="w-5 h-5"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-slate-500 text-sm"> 2025 HomPro Zimbabwe. All rights reserved.</p>
+                <div class="flex gap-6 text-slate-400">
+                    <a href="#" class="hover:text-accent transition-colors"><i data-lucide="facebook"
+                            class="w-5 h-5"></i></a>
+                    <a href="#" class="hover:text-accent transition-colors"><i data-lucide="instagram"
+                            class="w-5 h-5"></i></a>
+                    <a href="#" class="hover:text-accent transition-colors"><i data-lucide="twitter"
+                            class="w-5 h-5"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        lucide.createIcons();
+
+        // Simple animation for product cards - no ScrollTrigger needed
+        gsap.from('#product-grid > div', {
+            opacity: 1,
+            duration: 0.01,
+            stagger: 0
+        });
+    </script>
+</body>
+
+</html>
