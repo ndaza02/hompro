@@ -64,6 +64,49 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleClass: { className: 'shadow-md', targets: '#navbar' }
     });
 
+    const mobileNavToggle = document.querySelector('[data-mobile-nav-toggle]');
+    const mobileNavPanel = document.querySelector('[data-mobile-nav-panel]');
+    const mobileNavIconOpen = document.querySelector('[data-mobile-nav-icon-open]');
+    const mobileNavIconClose = document.querySelector('[data-mobile-nav-icon-close]');
+    const mobileNavLinks = Array.from(document.querySelectorAll('[data-mobile-nav-link]'));
+
+    if (mobileNavToggle && mobileNavPanel) {
+        const closeMobileNav = () => {
+            mobileNavPanel.classList.add('hidden');
+            mobileNavToggle.setAttribute('aria-expanded', 'false');
+            if (mobileNavIconOpen) mobileNavIconOpen.classList.remove('hidden');
+            if (mobileNavIconClose) mobileNavIconClose.classList.add('hidden');
+        };
+
+        const openMobileNav = () => {
+            mobileNavPanel.classList.remove('hidden');
+            mobileNavToggle.setAttribute('aria-expanded', 'true');
+            if (mobileNavIconOpen) mobileNavIconOpen.classList.add('hidden');
+            if (mobileNavIconClose) mobileNavIconClose.classList.remove('hidden');
+        };
+
+        mobileNavToggle.addEventListener('click', () => {
+            const isOpen = mobileNavToggle.getAttribute('aria-expanded') === 'true';
+            if (isOpen) {
+                closeMobileNav();
+            } else {
+                openMobileNav();
+            }
+        });
+
+        mobileNavLinks.forEach((link) => {
+            link.addEventListener('click', () => {
+                closeMobileNav();
+            });
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeMobileNav();
+            }
+        });
+    }
+
     // Features Animation
     gsap.from('.feature-card', {
         scrollTrigger: {

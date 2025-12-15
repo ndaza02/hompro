@@ -37,7 +37,7 @@
 <body class="font-sans text-slate-800 bg-slate-50 antialiased overflow-x-hidden">
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm transition-all duration-300" id="navbar">
+    <nav class="fixed w-full z-50 bg-white/20 backdrop-blur-xl border-b border-white/20 shadow-lg shadow-slate-900/5 transition-all duration-300 relative" id="navbar">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="index.html" class="flex items-center gap-3">
                 <img src="assets/images/home_pro-logo.png" alt="HomPro" class="h-16 w-auto object-contain">
@@ -48,16 +48,35 @@
                 <a href="index.html#about" class="hover:text-accent transition-colors">About</a>
                 <a href="index.html#contact" class="hover:text-accent transition-colors">Contact</a>
             </div>
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3">
+                <button type="button" class="md:hidden inline-flex items-center justify-center w-11 h-11 rounded-full bg-white/40 hover:bg-white/60 border border-white/30 text-slate-700 transition-colors" data-mobile-nav-toggle aria-label="Toggle navigation" aria-expanded="false">
+                    <span data-mobile-nav-icon-open class="inline-flex"><i data-lucide="menu" class="w-5 h-5"></i></span>
+                    <span data-mobile-nav-icon-close class="hidden"><i data-lucide="x" class="w-5 h-5"></i></span>
+                </button>
                 <button class="text-slate-600 hover:text-accent transition-colors relative">
                     <i data-lucide="shopping-cart" class="w-6 h-6"></i>
                     <span
                         class="absolute -top-2 -right-2 bg-accent text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
                 </button>
                 <button
-                    class="bg-primary text-white px-6 py-2 rounded-full font-semibold hover:bg-slate-800 transition-all shadow-lg">
+                    class="hidden sm:inline-flex bg-primary text-white px-6 py-2 rounded-full font-semibold hover:bg-slate-800 transition-all shadow-lg">
                     Login
                 </button>
+            </div>
+        </div>
+        <div class="md:hidden hidden" data-mobile-nav-panel>
+            <div class="px-6 pb-6 pt-2 bg-white/30 backdrop-blur-xl border-t border-white/20">
+                <div class="flex flex-col gap-3 font-medium text-slate-700">
+                    <a href="index.html" class="hover:text-accent transition-colors" data-mobile-nav-link>Home</a>
+                    <a href="shop.html" class="hover:text-accent transition-colors" data-mobile-nav-link>Shop</a>
+                    <a href="index.html#about" class="hover:text-accent transition-colors" data-mobile-nav-link>About</a>
+                    <a href="index.html#contact" class="hover:text-accent transition-colors" data-mobile-nav-link>Contact</a>
+                </div>
+                <div class="pt-4">
+                    <button type="button" class="inline-flex w-full items-center justify-center bg-primary text-white px-6 py-3 rounded-full font-semibold hover:bg-slate-800 transition-colors shadow-lg" data-mobile-nav-link>
+                        Login
+                    </button>
+                </div>
             </div>
         </div>
     </nav>

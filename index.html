@@ -37,7 +37,7 @@
 <body class="font-sans text-slate-800 bg-slate-50 antialiased overflow-x-hidden">
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm transition-all duration-300" id="navbar">
+    <nav class="fixed w-full z-50 bg-white/20 backdrop-blur-xl border-b border-white/20 shadow-lg shadow-slate-900/5 transition-all duration-300 relative" id="navbar">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#hero" class="flex items-center gap-3">
                 <img src="assets/images/home_pro-logo.png" alt="HomPro" class="h-16 w-auto object-contain">
@@ -49,10 +49,32 @@
                 <a href="#features" class="hover:text-accent transition-colors">Why Us</a>
                 <a href="#contact" class="hover:text-accent transition-colors">Contact</a>
             </div>
-            <button
-                class="bg-accent text-white px-6 py-2 rounded-full font-semibold hover:bg-amber-600 transition-all shadow-lg hover:shadow-amber-500/30">
-                Shop Now
-            </button>
+            <div class="flex items-center gap-3">
+                <button type="button" class="md:hidden inline-flex items-center justify-center w-11 h-11 rounded-full bg-white/40 hover:bg-white/60 border border-white/30 text-slate-700 transition-colors" data-mobile-nav-toggle aria-label="Toggle navigation" aria-expanded="false">
+                    <span data-mobile-nav-icon-open class="inline-flex"><i data-lucide="menu" class="w-5 h-5"></i></span>
+                    <span data-mobile-nav-icon-close class="hidden"><i data-lucide="x" class="w-5 h-5"></i></span>
+                </button>
+                <button
+                    class="hidden sm:inline-flex bg-accent text-white px-6 py-2 rounded-full font-semibold hover:bg-amber-600 transition-all shadow-lg hover:shadow-amber-500/30">
+                    Shop Now
+                </button>
+            </div>
+        </div>
+        <div class="md:hidden hidden" data-mobile-nav-panel>
+            <div class="px-6 pb-6 pt-2 bg-white/30 backdrop-blur-xl border-t border-white/20">
+                <div class="flex flex-col gap-3 font-medium text-slate-700">
+                    <a href="#hero" class="hover:text-accent transition-colors" data-mobile-nav-link>Home</a>
+                    <a href="shop.html" class="hover:text-accent transition-colors" data-mobile-nav-link>Shop</a>
+                    <a href="#about" class="hover:text-accent transition-colors" data-mobile-nav-link>About</a>
+                    <a href="#features" class="hover:text-accent transition-colors" data-mobile-nav-link>Why Us</a>
+                    <a href="#contact" class="hover:text-accent transition-colors" data-mobile-nav-link>Contact</a>
+                </div>
+                <div class="pt-4">
+                    <a href="shop.html" class="inline-flex w-full items-center justify-center bg-accent text-white px-6 py-3 rounded-full font-semibold hover:bg-amber-600 transition-colors shadow-lg shadow-amber-500/30" data-mobile-nav-link>
+                        Shop Now
+                    </a>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -62,7 +84,7 @@
         <section id="hero" class="h-screen relative flex items-center justify-center overflow-hidden">
             <div class="absolute inset-0 z-0">
                 <video id="hero-bg" class="w-full h-full object-cover" autoplay muted loop playsinline preload="auto" poster="assets/images/hero-bg.png">
-                    <source src="assets/videos/hero-bg.mp4" type="video/mp4">
+                    <source src="assets/videos/hero-bg-lighter.mp4" type="video/mp4">
                 </video>
                 <div class="absolute inset-0 bg-gradient-to-r from-slate-900/90 to-slate-900/40"></div>
             </div>
